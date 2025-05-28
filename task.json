@@ -1,0 +1,161 @@
+{
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Install Dependencies",
+                "type": "shell",
+                "command": "pip",
+                "args": [
+                    "install",
+                    "-r",
+                    "requirements.txt"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Run Flask Server",
+                "type": "shell",
+                "command": "python",
+                "args": [
+                    "app.py"
+                ],
+                "group": "test",
+                "problemMatcher": [],
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "Run Tests",
+                "type": "shell",
+                "command": "python",
+                "args": [
+                    "-m",
+                    "pytest",
+                    "tests/"
+                ],
+                "group": {
+                    "kind": "test",
+                    "isDefault": true
+                },
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Create Database",
+                "type": "shell",
+                "command": "python",
+                "args": [
+                    "-c",
+                    "from app import db; db.create_all()"
+                ],
+                "group": "build",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Generate Requirements",
+                "type": "shell",
+                "command": "pip",
+                "args": [
+                    "freeze",
+                    ">",
+                    "requirements.txt"
+                ],
+                "group": "build",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Start Frontend Dev Server",
+                "type": "shell",
+                "command": "live-server",
+                "args": [
+                    "--port=5500",
+                    "--host=localhost"
+                ],
+                "group": "test",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "Docker Build",
+                "type": "shell",
+                "command": "docker",
+                "args": [
+                    "build",
+                    "-t",
+                    "ai-attendance-system",
+                    "."
+                ],
+                "group": "build",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Docker Run",
+                "type": "shell",
+                "command": "docker",
+                "args": [
+                    "run",
+                    "-p",
+                    "5000:5000",
+                    "ai-attendance-system"
+                ],
+                "group": "test",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "Code Linting",
+                "type": "shell",
+                "command": "pylint",
+                "args": [
+                    "app.py",
+                    "*.py"
+                ],
+                "group": "build",
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            },
+            {
+                "label": "Full System Check",
+                "dependsOn": [
+                    "Install Dependencies",
+                    "Create Database",
+                    "Code Linting",
+                    "Run Tests"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "presentation": {
+                    "reveal": "always",
+                    "panel": "new"
+                }
+            }
+        ]
+    }
